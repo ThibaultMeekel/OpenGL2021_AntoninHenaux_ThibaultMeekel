@@ -1,0 +1,108 @@
+<html>
+
+<head>
+	<title>WebGL - Canvas test</title>
+	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+
+	<script type="text/javascript" src="glMatrix.js"></script>
+	<script type="text/javascript" src="callbacks.js"></script>
+	<script type="text/javascript" src="glCourseBasis.js"></script>
+	<link rel="stylesheet" href="slider.css">
+</head>
+
+<body onload="webGLStart();">
+	<canvas id="WebGL-test" style="border:none;" width="600" height="600"></canvas>
+
+	<div class = "slidercontainer">
+		<p>Opacity : <span id="demo"></span>
+			<br>
+			<input type="range" min="0" max="1" value="1.0" step="0.01" class="slider" id="opacityRange" >
+		</p>
+		<p>Number image : <span id="del"></span>
+			<br>
+			<input type="range" min="4" max="360" value="360" step="1" class="slider" id="imageNumber" >
+		</p>
+		<p>Treshold : <span id="puut"></span>
+			<br>
+			<input type="range" min="0" max="0.99" value="0.82" step="0.01" class="slider" id="threshRange" >
+		</p>
+		<p><input type="checkbox" name="stylecheck" id="multicoupe" onclick="switchCheck()" checked >
+			<label for="multicoupe">Multiple cuts</label>	
+		<p><input type="checkbox" name="stylecheck" id="falsecolor" onclick="switchcolor()"  >
+			<label for="falsecolor">Fake colors</label>	
+		
+		<br>
+
+		<div class = "colorpickers">
+			<label for="colorpickers">Fake colors choice :</label>
+			<br><br>
+			<input type="color" id="color1" value="#0000ff" onclick="setColors(hexToRGB(this.value),1)">
+			<input type="color" id="color2" value="#0000ff" onclick="setColors(hexToRGB(this.value),2)">
+			<input type="color" id="color3" value="#0000ff" onclick="setColors(hexToRGB(this.value),3)">
+			<input type="color" id="color4" value="#0000ff" onclick="setColors(hexToRGB(this.value),4)">
+			<input type="color" id="color5" value="#0000ff" onclick="setColors(hexToRGB(this.value),5)">
+		</div>
+		</p>
+	</div>
+	<script>
+		function hexToRGB(colorHexa) {
+			var r = 0, g = 0, b = 0;
+
+    		if (colorHexa.length == 7)
+    		{
+        		r = parseInt("0x" + colorHexa[1] + colorHexa[2]) / 255.0;
+        		g = parseInt("0x" + colorHexa[3] + colorHexa[4]) / 255.0;
+        		b = parseInt("0x" + colorHexa[5] + colorHexa[6]) / 255.0;
+    		}
+    		return [r, g, b];
+		}
+
+		function switchCheck(){
+			check = document.getElementById("multicoupe");
+			if (check.checked){
+				setOnlyOne(1);
+			}
+			else {
+				setOnlyOne(0);
+			}
+		}
+		function switchcolor(){
+			check = document.getElementById("falsecolor");
+			if (check.checked){
+				setFalseColors(1);
+			}
+			else {
+				setFalseColors(0);
+			}
+		}
+		var opacitySlider = document.getElementById("opacityRange");
+		var opacityOutput = document.getElementById("demo");
+		opacityOutput.innerHTML = opacitySlider.value;
+
+		opacitySlider.oninput = function affislideopa() {
+			setOpacity(this.value);
+			opacityOutput.innerHTML = this.value;
+		}
+
+		var imageNumberSlider = document.getElementById("imageNumber");
+		var imageNumberOutput = document.getElementById("del");
+		imageNumberOutput.innerHTML = imageNumberSlider.value;
+
+		imageNumberSlider.oninput = function modifImageNumber() {
+			setNumberImage(this.value);
+			imageNumberOutput.innerHTML = this.value;
+		}
+
+		var thresholdSlider = document.getElementById("threshRange");
+		var thresholdOutput = document.getElementById("puut");
+		thresholdOutput.innerHTML = thresholdSlider.value;
+
+		thresholdSlider.oninput = function modifThreshold() {
+			setThreshold(this.value);
+			thresholdOutput.innerHTML = this.value;
+		}
+	</script>
+
+</body>
+</html>
